@@ -17,12 +17,12 @@ import UnauthPage from "./pages/unauth-page";
 
 function App() {
   // const isAuthenticated = true;
-  const user = {
-    role: "user",
-  };
+  // const user = {
+  //   role: "user",
+  // };
 
-  const isAuthenticated = true;
-  // const user = null;
+  const isAuthenticated = false;
+  const user = null;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
