@@ -4,6 +4,7 @@ import User from "../../models/User.js";
 
 //register
 const registerUser = async (req, res) => {
+  console.log(req.body);
   const { userName, email, password } = req.body;
 
   try {
@@ -11,7 +12,7 @@ const registerUser = async (req, res) => {
     const newUser = new User({
       userName,
       email,
-      hashPassword,
+      password: hashPassword,
     });
     await newUser.save();
     res.status(200).json({
