@@ -28,6 +28,11 @@ const AuthRegister = () => {
         });
         navigate("/auth/login");
         console.log(data);
+      } else {
+        toast({
+          title: data?.payload?.message || "error" ,
+          variant: "destructive",
+        });
       }
       // navigate("/auth/login");
     });
