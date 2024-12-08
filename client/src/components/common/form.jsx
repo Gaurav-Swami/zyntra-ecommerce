@@ -1,22 +1,28 @@
-import React from "react";
 import { Input } from "../ui/input";
-import { Select, SelectItem, SelectTrigger } from "../ui/select";
-import { SelectContent, SelectValue } from "@radix-ui/react-select";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
-const CommonForm = ({
+function CommonForm({
   formControls,
   formData,
   setFormData,
   onSubmit,
   buttonText,
-}) => {
-  function renderInputByComponentType(getControlItem) {
+  isBtnDisabled,
+}) {
+  function renderInputsByComponentType(getControlItem) {
     let element = null;
     const value = formData[getControlItem.name] || "";
 
-    switch (getControlItem.type) {
+    switch (getControlItem.componentType) {
       case "input":
         element = (
           <Input
@@ -33,8 +39,8 @@ const CommonForm = ({
             }
           />
         );
-        break;
 
+        break;
       case "select":
         element = (
           <Select
@@ -47,7 +53,7 @@ const CommonForm = ({
             value={value}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={getControlItem.placeholder} />
+              <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
             <SelectContent>
               {getControlItem.options && getControlItem.options.length > 0
@@ -60,8 +66,8 @@ const CommonForm = ({
             </SelectContent>
           </Select>
         );
-        break;
 
+        break;
       case "textarea":
         element = (
           <Textarea
@@ -77,6 +83,7 @@ const CommonForm = ({
             }
           />
         );
+
         break;
 
       default:
@@ -97,25 +104,25 @@ const CommonForm = ({
         );
         break;
     }
+
     return element;
   }
+
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-3">
         {formControls.map((controlItem) => (
-          <div key={controlItem.name} className="grid w-full gap-1.5">
-            <label htmlFor="" className="mb-1">
-              {controlItem.label}
-            </label>
-            {renderInputByComponentType(controlItem)}
+          <div className="grid w-full gap-1.5" key={controlItem.name}>
+            <Label className="mb-1">{controlItem.label}</Label>
+            {renderInputsByComponentType(controlItem)}
           </div>
         ))}
       </div>
-      <Button type="submit" className="mt-2 w-full">
-        {buttonText || "submit"}
+      <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full">
+        {buttonText || "Submit"}
       </Button>
     </form>
   );
-};
+}
 
 export default CommonForm;
