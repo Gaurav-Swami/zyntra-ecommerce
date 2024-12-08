@@ -30,7 +30,7 @@ const AuthRegister = () => {
         console.log(data);
       } else {
         toast({
-          title: data?.payload?.message || "error" ,
+          title: data?.payload?.message || "error " ,
           variant: "destructive",
         });
       }

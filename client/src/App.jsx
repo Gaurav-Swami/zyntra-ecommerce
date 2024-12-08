@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton";
+import AdminOrders from "./pages/admin-view/orders";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector(
@@ -60,7 +61,7 @@ function App() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="features" element={<AdminFeatures />} />
-          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
         </Route>
 
         {/* user routes */}

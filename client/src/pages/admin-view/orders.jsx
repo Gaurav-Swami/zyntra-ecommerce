@@ -1,9 +1,9 @@
 import React from 'react'
 
-const AdminFeatures = () => {
+const AdminOrders = () => {
   return (
-    <div>AdminFeatures</div>
+    <div>AdminOrders</div>
   )
 }
 
-export default AdminFeatures
+export default AdminOrders

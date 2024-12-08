@@ -1,4 +1,4 @@
-import { Component } from "lucide-react";
+
 
 export const registerFormControls = [
   {
@@ -40,3 +40,5 @@ export const LoginFormControls = [
     type: "password",
   },
 ];
+
+
