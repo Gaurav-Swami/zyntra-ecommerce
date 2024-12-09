@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/auth/auth-route.js";
+import adminProductsRouter from "./routes/admin/products-routes.js";
 
 //create a database connection || or you can create a separate file for this and then use that file here
 
@@ -34,6 +35,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRouter);
+app.use("/api/admin/products", adminProductsRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on the ", PORT);

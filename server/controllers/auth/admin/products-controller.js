@@ -17,6 +17,6 @@ const handleImageUpload = async (req, res) => {
       message: "Error Occured",
     });
   }
-};
+};  
 
 export { handleImageUpload };
