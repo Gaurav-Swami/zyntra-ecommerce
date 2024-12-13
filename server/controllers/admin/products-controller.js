@@ -93,7 +93,7 @@ const editProduct = async (req, res) => {
       totalStock,
     } = req.body;
 
-    const findProduct = await Product.findById(id);
+    let findProduct = await Product.findById(id);
 
     if (!findProduct)
       return res.status(404).json({
@@ -104,8 +104,8 @@ const editProduct = async (req, res) => {
     findProduct.title = title || findProduct.title;
     findProduct.description = description || findProduct.description;
     findProduct.category = category || findProduct.category;
-    findProduct.price = price || findProduct.price;
-    findProduct.salePrice = salePrice || findProduct.salePrice;
+    findProduct.price = price === "" ? 0 : price;
+    findProduct.salePrice = salePrice === "" ? 0 : salePrice;
     findProduct.totalStock = totalStock || findProduct.totalStock;
     findProduct.image = image || findProduct.image;
     findProduct.brand = brand || findProduct.brand;
