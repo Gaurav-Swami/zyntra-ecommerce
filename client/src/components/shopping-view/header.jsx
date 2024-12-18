@@ -47,9 +47,9 @@ function HeaderRightContent() {
         <ShoppingCart className="w-6 h-6" />
         <span className="sr-only">User Cart</span>
       </Button>
-      <DropdownMenu>
+      <DropdownMenu >
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black ">
+          <Avatar className="bg-black cursor-pointer" >
             <AvatarFallback className="bg-black text-white font-extrabold">
               {user.userName[0].toUpperCase()}
             </AvatarFallback>

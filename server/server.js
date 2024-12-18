@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/auth/auth-route.js";
 import adminProductsRouter from "./routes/admin/products-routes.js";
+import shopProductsRouter from "./routes/shop/products-routes.js";
 
 //create a database connection || or you can create a separate file for this and then use that file here
 
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
+app.use("/api/shop/products", shopProductsRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on the ", PORT);
