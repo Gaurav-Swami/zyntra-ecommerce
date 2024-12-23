@@ -49,10 +49,10 @@ const CheckAuth = ({ isAuthenticated, user, children }) => {
     user?.role === "admin" &&
     location.pathname.includes("shop")
   ) {
-    console.log(children);
+ 
     return <Navigate to="/admin/dashboard" />;
   }
-  console.log(children);
+
   return <>{children}</>;
 };
 

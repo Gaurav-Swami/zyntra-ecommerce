@@ -14,7 +14,19 @@ import { ArrowUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingProductTile from "./product-tile";
-import { useSearchParams } from "react-router-dom";
+import { createSearchParams, useSearchParams } from "react-router-dom";
+
+function createSearchParamsHelper(filterParams) {
+  const queryParams = [];
+  for (const [key, value] of Object.entries(filterParams)) {
+    if (Array.isArray(value) && value.length > 0) {
+      const paramValue = value.join(",");
+      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+    }
+  }
+  console.log(queryParams)
+  return queryParams.join("&");
+}
 
 const ShoppingListing = () => {
   const dispatch = useDispatch();
@@ -22,17 +34,16 @@ const ShoppingListing = () => {
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  
 
   function handleSort(value) {
-    console.log(value);
+
     setSort(value);
   }
 
   function handleFilter(getSectionId, getCurrentOption) {
     let cpyFilters = { ...filters };
     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
-    console.log(indexOfCurrentSection);
+    
 
     if (indexOfCurrentSection === -1) {
       cpyFilters = {
@@ -56,13 +67,20 @@ const ShoppingListing = () => {
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
   }, []);
 
-  useEffect(() => {}, [filters]);
+  useEffect(() => {
+    if (filters && Object.keys(filters).length > 0) {
+      const createQueryString = createSearchParamsHelper(filters);
+      setSearchParams(new URLSearchParams(createQueryString));
+    }
+  }, [filters]);
 
   useEffect(() => {
     dispatch(fetchAllFilteredProducts());
   }, [dispatch]);
 
-  console.log(filters,searchParams, "filters");
+  
+  
+  (filters, searchParams, "filters");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
