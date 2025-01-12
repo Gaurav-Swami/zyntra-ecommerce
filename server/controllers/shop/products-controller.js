@@ -8,15 +8,37 @@ const getFilteredProducts = async (req, res) => {
 
     if (category.length) {
       filters.category = { $in: category.split(",") };
-
     }
 
-    if(brand.length){
-      filters.brand  = {$in: brand.split(',')}
+    if (brand.length) {
+      filters.brand = { $in: brand.split(",") };
     }
-    
 
-    const products = await Product.find({});
+    let sort = {};
+
+    switch (sortBy) {
+      case "price-lowtohigh":
+        sort.price = 1;
+        break;
+
+      case "price-hightolow":
+        sort.price = -1;
+        break;
+
+      case "title-atoz":
+        sort.price = 1;
+        break;
+
+      case "title-ztoa":
+        sort.price = -1;
+        break;
+
+      default:
+        sort.price = 1;
+        break;
+    }
+
+    const products = await Product.find(filters).sort(sort);
     res.status(200).json({
       success: true,
       data: products,

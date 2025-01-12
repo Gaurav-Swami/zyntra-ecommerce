@@ -24,7 +24,7 @@ function createSearchParamsHelper(filterParams) {
       queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
     }
   }
-  console.log(queryParams)
+  console.log(queryParams);
   return queryParams.join("&");
 }
 
@@ -36,14 +36,12 @@ const ShoppingListing = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function handleSort(value) {
-
     setSort(value);
   }
 
   function handleFilter(getSectionId, getCurrentOption) {
     let cpyFilters = { ...filters };
     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
-    
 
     if (indexOfCurrentSection === -1) {
       cpyFilters = {
@@ -75,12 +73,15 @@ const ShoppingListing = () => {
   }, [filters]);
 
   useEffect(() => {
-    dispatch(fetchAllFilteredProducts());
-  }, [dispatch]);
+    if (filters !== null && sort != null) {
+      dispatch(
+        fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
+      );
+    }
+    
+  }, [dispatch, sort, filters]);
 
-  
-  
-  (filters, searchParams, "filters");
+  filters, searchParams, "filters";
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
