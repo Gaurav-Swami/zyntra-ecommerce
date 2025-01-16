@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
-import { fetchAllFilteredProducts } from "@/store/shop/products-slice";
+import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
 
 import { ArrowUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -30,7 +30,7 @@ function createSearchParamsHelper(filterParams) {
 
 const ShoppingListing = () => {
   const dispatch = useDispatch();
-  const { productList } = useSelector((state) => state.shopProducts);
+  const { productList,productDetails } = useSelector((state) => state.shopProducts);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -65,6 +65,11 @@ const ShoppingListing = () => {
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
   }, []);
 
+  function handleGetProductDetails(getCurrentProductId) {
+    console.log(getCurrentProductId);
+    dispatch(fetchProductDetails(getCurrentProductId))
+  }
+  console.log(productDetails,'product detaisl')
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
       const createQueryString = createSearchParamsHelper(filters);
@@ -78,7 +83,6 @@ const ShoppingListing = () => {
         fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
       );
     }
-    
   }, [dispatch, sort, filters]);
 
   filters, searchParams, "filters";
@@ -123,6 +127,7 @@ const ShoppingListing = () => {
           {productList && productList.length > 0
             ? productList.map((productItem) => (
                 <ShoppingProductTile
+                  handleGetProductDetails={handleGetProductDetails}
                   product={productItem}
                   key={productItem._id}
                 />
