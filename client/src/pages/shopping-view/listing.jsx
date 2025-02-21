@@ -8,13 +8,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
-import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
+import {
+  fetchAllFilteredProducts,
+  fetchProductDetails,
+} from "@/store/shop/products-slice";
 
 import { ArrowUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ShoppingProductTile from "./product-tile";
+import ShoppingProductTile from "../../components/shopping-view/product-tile";
 import { createSearchParams, useSearchParams } from "react-router-dom";
+import ProductDetailsDialog from "../../components/shopping-view/product-detail";
 
 function createSearchParamsHelper(filterParams) {
   const queryParams = [];
@@ -30,10 +34,13 @@ function createSearchParamsHelper(filterParams) {
 
 const ShoppingListing = () => {
   const dispatch = useDispatch();
-  const { productList,productDetails } = useSelector((state) => state.shopProducts);
+  const { productList, productDetails } = useSelector(
+    (state) => state.shopProducts
+  );
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
   function handleSort(value) {
     setSort(value);
@@ -67,9 +74,9 @@ const ShoppingListing = () => {
 
   function handleGetProductDetails(getCurrentProductId) {
     console.log(getCurrentProductId);
-    dispatch(fetchProductDetails(getCurrentProductId))
+    dispatch(fetchProductDetails(getCurrentProductId));
   }
-  console.log(productDetails,'product detaisl')
+  console.log(productDetails, "product detaisl");
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
       const createQueryString = createSearchParamsHelper(filters);
@@ -85,7 +92,9 @@ const ShoppingListing = () => {
     }
   }, [dispatch, sort, filters]);
 
-  filters, searchParams, "filters";
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetailsDialog(true);
+  }, [productDetails]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -135,6 +144,11 @@ const ShoppingListing = () => {
             : null}
         </div>
       </div>
+      <ProductDetailsDialog
+        open={openDetailsDialog}
+        setOpen={setOpenDetailsDialog}
+        productDetails={productDetails}
+      />
     </div>
   );
 };
